@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var azure = require("azure-storage");
 var Blob = (function () {
     function Blob(opts) {
