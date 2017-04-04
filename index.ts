@@ -26,8 +26,7 @@ class Blob {
     this.blobSvc = opts.connectionString ? azure.createBlobService(opts.connectionString) : azure.createBlobService(opts.account, opts.key);
     this.createContainer(this.container);
     this.blobPathResolver = opts.blobPathResolver;
-    this.storageOptions = opts.storageOptions;
-    console.log('this.storageOptions:', this.storageOptions)
+    this.storageOptions = opts.storageOptions || {};
   };
 
   //This creates the container if one doesn't exist
@@ -42,8 +41,7 @@ class Blob {
   // actual upload function, will wait for blobPathResolver callback before upload.
   private uploadToBlob(req: any, file: any, cb: any) {
     let that = this;
-    return function (something: any, blobPath: string) {
-      console.log('something:', something)
+    return function (something: any = this.storageOptions, blobPath: string) {
       let blobStream = that.blobSvc.createWriteStreamToBlockBlob(that.container, blobPath, something, function(error){
         if(error){cb(error);}
       });

@@ -23,8 +23,9 @@ let upload = multer({
     container: '[Blob Container Name]', //Any container name, it will be created if it doesn't exist
     blobPathResolver: function(req, file, callback){
       var blobPath = yourMagicLogic(req, file); //Calculate blobPath in your own way.
-      callback(null, blobPath);
-    }
+      callback(null, blobPath); // the first parameter can be the blob configuration options which defaults to the below storageOptions property 
+    },
+    storageOptions: {'contentSettings': {'cacheControl': 'public,no-cache', 'contentType': 'image/jpeg'}} // [Optional] for configure blob properties, it defaults to {}
   })
 })
 

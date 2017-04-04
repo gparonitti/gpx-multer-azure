@@ -6,8 +6,7 @@ var Blob = (function () {
         this.blobSvc = opts.connectionString ? azure.createBlobService(opts.connectionString) : azure.createBlobService(opts.account, opts.key);
         this.createContainer(this.container);
         this.blobPathResolver = opts.blobPathResolver;
-        this.storageOptions = opts.storageOptions;
-        console.log('this.storageOptions:', this.storageOptions);
+        this.storageOptions = opts.storageOptions || {};
     }
     ;
     Blob.prototype.createContainer = function (name) {
@@ -20,7 +19,7 @@ var Blob = (function () {
     Blob.prototype.uploadToBlob = function (req, file, cb) {
         var that = this;
         return function (something, blobPath) {
-            console.log('something:', something);
+            if (something === void 0) { something = this.storageOptions; }
             var blobStream = that.blobSvc.createWriteStreamToBlockBlob(that.container, blobPath, something, function (error) {
                 if (error) {
                     cb(error);

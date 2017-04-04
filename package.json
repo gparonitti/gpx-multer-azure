@@ -1,6 +1,6 @@
 {
   "name": "gpx-multer-azure",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Streaming multer storage engine for Azure Blob storage.",
   "main": "index.js",
   "scripts": {
