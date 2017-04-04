@@ -1,6 +1,6 @@
 {
   "name": "multer-azure",
-  "version": "1.0.0-beta.1",
+  "version": "0.0.1",
   "description": "Streaming multer storage engine for Azure Blob storage.",
   "main": "index.js",
   "scripts": {
@@ -9,23 +9,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mckalexee/multer-azure.git"
+    "url": "git+https://github.com/gparonitti/gpx-multer-azure.git"
   },
   "keywords": [
     "multer",
     "azure",
     "blob"
   ],
-  "author": "Alex McKenzie",
+  "author": "Gianluca Paronitti",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mckalexee/multer-azure/issues"
+    "url": "https://github.com/gparonitti/gpx-multer-azure/issues"
   },
-  "homepage": "https://github.com/mckalexee/multer-azure#readme",
+  "homepage": "https://github.com/gparonitti/gpx-multer-azure#readme",
   "dependencies": {
-    "azure-storage": "^1.4.0"
+    "azure-storage": "^2.1.0"
   },
   "devDependencies": {
-    "@types/node": "0.0.2"
+    "@types/node": "7.0.12"
   }
 }

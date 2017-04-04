@@ -1,25 +1,26 @@
 # Multer Azure
-This is a multer storage engine for Azure's blob storage.
+This is a multer storage engine for Azure's blob storage. This is a forked and modified version from [Alex McKenzie](https://github.com/mckalexee/multer-azure) to whom all my thanks and appreciation goes. 
+For now I simply have added the possibility to upload file to blob storage with options enabled.
 
 ## Installation
 ```sh
-npm install --save multer-azure
+npm i -S gpx-multer-azure
 ```
 
 ## Usage
 ```javascript
-var express = require('express')
-var multer = require('multer')
-var multerAzure = require('multer-azure')
+const express = require('express')
+const multer = require('multer')
+const multerAzure = require('multer-azure')
 
-var app = express()
+let app = express()
 
-var upload = multer({ 
+let upload = multer({ 
   storage: multerAzure({
     connectionString: '[Azure Storage Connection String]', //Connection String for azure storage account, this one is prefered if you specified, fallback to account and key if not.
     account: '[Azure Storage Account]', //The name of the Azure storage account
     key: '[Azure Storage Account Key]', //A key listed under Access keys in the storage account pane
-    container: '[Blob Container Name]'  //Any container name, it will be created if it doesn't exist
+    container: '[Blob Container Name]', //Any container name, it will be created if it doesn't exist
     blobPathResolver: function(req, file, callback){
       var blobPath = yourMagicLogic(req, file); //Calculate blobPath in your own way.
       callback(null, blobPath);

@@ -9,7 +9,8 @@ interface iOpts {
   key: string,
   connectionString: string,
   container: string,
-  blobPathResolver: (req: any, file: any, cb: (error: any, blobPath: string) => void) => void;
+  blobPathResolver: (req: any, file: any, cb: (error: any, blobPath: string) => void) => void,
+  storageOptions?: any;
 }
 
 
@@ -17,6 +18,7 @@ class Blob {
   private container: string;
   private blobSvc: azure.BlobService;
   private blobPathResolver: (req: any, file: any, cb: (error: any, blobPath: string) => void) => void;
+  private storageOptions: any
 
   //Creates a new service to interact with azure blob storage
   constructor(opts: iOpts) {
@@ -24,6 +26,8 @@ class Blob {
     this.blobSvc = opts.connectionString ? azure.createBlobService(opts.connectionString) : azure.createBlobService(opts.account, opts.key);
     this.createContainer(this.container);
     this.blobPathResolver = opts.blobPathResolver;
+    this.storageOptions = opts.storageOptions;
+    console.log('this.storageOptions:', this.storageOptions)
   };
 
   //This creates the container if one doesn't exist
@@ -37,15 +41,15 @@ class Blob {
 
   // actual upload function, will wait for blobPathResolver callback before upload.
   private uploadToBlob(req: any, file: any, cb: any) {
-    var that = this;
+    let that = this;
     return function (something: any, blobPath: string) {
-      var blobStream = that.blobSvc.createWriteStreamToBlockBlob(that.container, blobPath, function(error){
+      let blobStream = that.blobSvc.createWriteStreamToBlockBlob(that.container, blobPath, something, function(error){
         if(error){cb(error);}
       });
       file.stream.pipe(blobStream);
       blobStream.on("close", function(){
-        var fullUrl = that.blobSvc.getUrl(that.container, blobPath); 
-        var fileClone = JSON.parse(JSON.stringify(file));
+        let fullUrl = that.blobSvc.getUrl(that.container, blobPath);
+        let fileClone = JSON.parse(JSON.stringify(file));
         fileClone.container = that.container;
         fileClone.blobPath = blobPath;
         fileClone.url = fullUrl;
@@ -67,11 +71,11 @@ class Blob {
     } else {
 
       //Extracts the extension for the filename
-      var re = /(?:\.([^.]+))?$/;
-      var ext = re.exec(file.originalname)[1];
+      let re = /(?:\.([^.]+))?$/;
+      let ext = re.exec(file.originalname)[1];
 
       //Creates a unique filename based on the time and appends the extension
-      var newName = Date.now() + '-' + encodeURIComponent(new Buffer(file.originalname).toString('base64')) + '.' + ext;
+      let newName = Date.now() + '-' + encodeURIComponent(new Buffer(file.originalname).toString('base64')) + '.' + ext;
       this.uploadToBlob(req, file, cb)(null, newName);
     }
   }
