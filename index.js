@@ -20,6 +20,7 @@ var Blob = (function () {
     Blob.prototype.uploadToBlob = function (req, file, cb) {
         var that = this;
         return function (something, blobPath) {
+            console.log('something:', something);
             var blobStream = that.blobSvc.createWriteStreamToBlockBlob(that.container, blobPath, something, function (error) {
                 if (error) {
                     cb(error);

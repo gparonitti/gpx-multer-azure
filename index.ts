@@ -43,6 +43,7 @@ class Blob {
   private uploadToBlob(req: any, file: any, cb: any) {
     let that = this;
     return function (something: any, blobPath: string) {
+      console.log('something:', something)
       let blobStream = that.blobSvc.createWriteStreamToBlockBlob(that.container, blobPath, something, function(error){
         if(error){cb(error);}
       });
