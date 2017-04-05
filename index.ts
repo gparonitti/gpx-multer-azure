@@ -41,8 +41,9 @@ class Blob {
   // actual upload function, will wait for blobPathResolver callback before upload.
   private uploadToBlob(req: any, file: any, cb: any) {
     let that = this;
-    return function (something: any = this.storageOptions, blobPath: string) {
-      let blobStream = that.blobSvc.createWriteStreamToBlockBlob(that.container, blobPath, something, function(error){
+    return function (something: any, blobPath: string) {
+      let options = something || this.storageOptions
+      let blobStream = that.blobSvc.createWriteStreamToBlockBlob(that.container, blobPath, options, function(error){
         if(error){cb(error);}
       });
       file.stream.pipe(blobStream);
